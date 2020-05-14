@@ -25,7 +25,8 @@
 
     <script>
         window.onload = function() {
-            console.log("page loaded!");
+            userSignInAnonymous();
+            loadMessages();
         };
     </script>
 </head>
@@ -59,7 +60,7 @@
                     <input type="text" size="60" placeholder="message" id="message_input">
                 </div>
             </div>
-            <div class="ui right aligned column">
+            <div class="ui right aligned column" onclick="sendMessage()">
                 <button type="button" class="ui green button">Verzend</button>
             </div>
         </div>
@@ -76,7 +77,10 @@
         <div class="ui segment">
             <div class="ui two column grid">
                 <div class="ui left aligned column">
-                    <p id="message_content">I am a template message</p>
+                    <p id="message_content"></p>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="ui right aligned column">
+                    <button class="ui orange icon button remove_button" onclick="removeMessage(this)"><i class="close icon"></i></button>
                 </div>
             </div>
         </div>

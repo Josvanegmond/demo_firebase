@@ -11,24 +11,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @Configuration
 public class FirebaseDemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private LoginAuthenticationProvider loginAuthenticationProvider;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new AuthenticationProvider() {
-            @Override
-            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-                return authentication;
-            }
-
-            @Override
-            public boolean supports(Class<?> authentication) {
-                return true;
-            }
-        });
+        auth
+            .authenticationProvider(loginAuthenticationProvider)
+            .inMemoryAuthentication().userDetailsPasswordManager(loginAuthenticationProvider);
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
