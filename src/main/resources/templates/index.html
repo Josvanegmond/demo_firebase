@@ -1,0 +1,88 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase Spring Demo</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css"/>
+
+    <script>
+        window.onload = function() {
+            console.log("page loaded!");
+        };
+    </script>
+</head>
+
+<body>
+
+<div class="ui container">
+    <div class="heading">
+        <div class="ui two column grid">
+            <div class="ui left aligned column">
+                <div class="ui header">
+                    Firebase Demo with Spring Boot!
+                </div>
+            </div>
+            <div class="ui right aligned column">
+                <form name="logoutForm" th:action="@{/logout}" method="post">
+                    <button class="ui orange button" type="submit">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ui segment">
+        <p th:text="'Welcome ' + ${#authentication.getPrincipal()} + '!'"></p>
+        <p th:text="'Your role is ' + ${#authentication.getAuthorities()}"></p>
+
+        <div class="ui two column grid">
+            <div class="ui left aligned column">
+                <div class="ui input">
+                    <input type="text" size="60" placeholder="message" id="message_input">
+                </div>
+            </div>
+            <div class="ui right aligned column">
+                <button type="button" class="ui green button">Verzend</button>
+            </div>
+        </div>
+
+        <input type="hidden" id="username" th:value="${#authentication.getPrincipal()}">
+        <input type="hidden" id="userrole" th:value="${#authentication.getAuthorities()}">
+    </div>
+    <div class="ui one column grid" id="message_list">
+    </div>
+</div>
+
+<template id="message_template">
+    <div class="ui sixteen wide column message_container">
+        <div class="ui segment">
+            <div class="ui two column grid">
+                <div class="ui left aligned column">
+                    <p id="message_content">I am a template message</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+</body>
+
+</html>
